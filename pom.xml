@@ -11,6 +11,8 @@
 
   <modules>
     <module>mdf-common</module>
+    <module>mdf-test</module>
+    <module>mdf-base-starter</module>
   </modules>
 
   <properties>
@@ -19,7 +21,7 @@
     <spring-boot-dependencies.version>2.3.12.RELEASE</spring-boot-dependencies.version>
     <spring-cloud-dependencies.version>Hoxton.SR12</spring-cloud-dependencies.version>
     <spring-cloud-alibaba-dependencies.version>2.2.9.RELEASE</spring-cloud-alibaba-dependencies.version>
-    <dubbo-dependencies-bom.version>2.7.23</dubbo-dependencies-bom.version>
+    <dubbo.version>2.7.23</dubbo.version>
     <lombok.version>1.18.30</lombok.version>
     <mapstruct-processor.version>1.5.5.Final</mapstruct-processor.version>
     <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
@@ -60,15 +62,12 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-      <!-- dubbo-dependencies -->
+      <!-- dubbo -->
       <dependency>
         <groupId>org.apache.dubbo</groupId>
-        <artifactId>dubbo-dependencies-bom</artifactId>
-        <version>${dubbo-dependencies-bom.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
+        <artifactId>dubbo</artifactId>
+        <version>${dubbo.version}</version>
       </dependency>
-
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
@@ -112,7 +111,7 @@
       <dependency>
         <groupId>org.apache.dubbo</groupId>
         <artifactId>dubbo-spring-boot-starter</artifactId>
-        <version>${dubbo-dependencies-bom.version}</version>
+        <version>${dubbo.version}</version>
       </dependency>
 
       <dependency>

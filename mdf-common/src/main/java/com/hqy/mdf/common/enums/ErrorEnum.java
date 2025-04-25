@@ -17,7 +17,6 @@ import java.util.Map;
  * 错误编码：0000-9999
  *
  * @author hqy
- * @date 2025/4/23
  */
 @Getter
 @AllArgsConstructor
@@ -25,7 +24,13 @@ public enum ErrorEnum implements ErrorCodeMsg, GainEnum<ErrorEnum> {
 
     //通用
     SUCCESS("0","成功"),
-    SYSTEM_ERROR("100009999","系统错误"),
+
+    //架构层
+    UNKNOWN_ERROR("100000000","系统繁忙，请稍后重试"),
+    REQUEST_PATH_ERROR("100000001","请求地址错误"),
+    REQUEST_METHODS_NOT_SUPPORTED("100000002","请求方法不支持"),
+    PARAM_ERROR("100000003","参数错误"),
+    PARAM_FORMAT_ERROR("1000004","参数格式不正确"),
     ;
 
     private final String code;

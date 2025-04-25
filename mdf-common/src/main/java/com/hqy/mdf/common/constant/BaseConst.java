@@ -2,7 +2,6 @@ package com.hqy.mdf.common.constant;
 
 /**
  * @author hqy
- * @date 2025/4/23
  */
 public class BaseConst {
 

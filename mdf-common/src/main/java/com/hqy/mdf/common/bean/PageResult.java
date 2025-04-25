@@ -7,7 +7,6 @@ import java.util.List;
 
 /**
  * @author hqy
- * @date 2025/4/23
  */
 @Data
 public class PageResult<T> implements Serializable {
@@ -17,7 +16,7 @@ public class PageResult<T> implements Serializable {
     private long page;
 
     /**
-     * 当前页的数量
+     * 当前记录数
      */
     private int size;
 

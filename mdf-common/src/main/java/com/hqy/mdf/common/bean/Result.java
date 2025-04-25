@@ -9,7 +9,6 @@ import java.io.Serializable;
 
 /**
  * @author hqy
- * @date 2025/4/23
  */
 @Data
 public class Result<T> implements Serializable {
@@ -50,6 +49,12 @@ public class Result<T> implements Serializable {
     public Result(ErrorCodeMsg error) {
         this.errorCode = error.getCode();
         this.errorMsg = error.getMsg();
+        this.traceId = MDC.get(BaseConst.TRACE_ID);
+    }
+
+    public Result(String errorCode, String errorMsg) {
+        this.errorCode = errorCode;
+        this.errorMsg = errorMsg;
         this.traceId = MDC.get(BaseConst.TRACE_ID);
     }
 

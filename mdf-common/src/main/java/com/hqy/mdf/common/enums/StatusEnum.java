@@ -9,7 +9,6 @@ import java.util.Map;
 
 /**
  * @author hqy
- * @date 2025/4/23
  */
 @Getter
 @AllArgsConstructor
@@ -24,19 +23,20 @@ public enum StatusEnum implements GainEnum<StatusEnum> {
     private final Integer code;
     private final String msg;
 
-    public static final Map<Integer, StatusEnum> ENUM_MAP = new HashMap<>();
+    public static final Map<Object, StatusEnum> ENUM_MAP = new HashMap<>();
     static {
         for (StatusEnum value : StatusEnum.values()) {
             ENUM_MAP.put(value.code,value);
         }
     }
 
+    public static StatusEnum getByCode(Integer code){
+        return ENUM_MAP.get(code);
+    }
+
     @Override
     public StatusEnum getEnumByCode(Object code) {
-        if (code instanceof Integer) {
-            return ENUM_MAP.get((Integer) code);
-        }
-        return null;
+        return  ENUM_MAP.get( code);
     }
 
 

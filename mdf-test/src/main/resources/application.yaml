@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: mdf-test
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
