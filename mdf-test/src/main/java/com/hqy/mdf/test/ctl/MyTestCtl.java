@@ -24,6 +24,7 @@ public class MyTestCtl {
 
     @PostMapping("/test2")
     public Result<?> test2(@RequestBody @Validated TestVO vo){
+        log.info("test2 vo:{}", JSON.toJSONString(vo));
         return ResultUtils.success(vo);
     }
 

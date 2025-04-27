@@ -3,6 +3,7 @@ package com.hqy.mdf.base.starter.handler;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.hqy.mdf.common.bean.Result;
+import com.hqy.mdf.common.constant.BaseConst;
 import com.hqy.mdf.common.enums.ErrorEnum;
 import com.hqy.mdf.common.util.ResultUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,9 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+/**
+ * springboot web全局异常处理
+ */
 @Slf4j
 @RestControllerAdvice
 public class WebGlobalExceptionHandler {
@@ -32,7 +36,7 @@ public class WebGlobalExceptionHandler {
     public <T> Result<T> handleException(BindException e) {
         StringBuilder errorMsg = new StringBuilder();
         for (ObjectError error : e.getBindingResult().getAllErrors()) {
-            errorMsg.append(error.getDefaultMessage()).append(" ");
+            errorMsg.append(error.getDefaultMessage()).append(BaseConst.EMPTY_STR);
         }
         return ResultUtils.error(ErrorEnum.PARAM_ERROR.getCode(), errorMsg.toString());
     }
@@ -44,7 +48,7 @@ public class WebGlobalExceptionHandler {
     public <T> Result<T> handleException(MethodArgumentNotValidException e) {
         StringBuilder errorMsg = new StringBuilder();
         for (ObjectError error : e.getBindingResult().getAllErrors()) {
-            errorMsg.append(error.getDefaultMessage()).append(" ");
+            errorMsg.append(error.getDefaultMessage()).append(BaseConst.EMPTY_STR);
         }
         return ResultUtils.error(ErrorEnum.PARAM_ERROR.getCode(), errorMsg.toString());
     }
@@ -56,7 +60,7 @@ public class WebGlobalExceptionHandler {
     public <T> Result<T> handleException(ConstraintViolationException e) {
         StringBuilder errorMsg = new StringBuilder();
         for (ConstraintViolation<?> constraintViolation : e.getConstraintViolations()) {
-            errorMsg.append(constraintViolation.getMessage()).append(" ");
+            errorMsg.append(constraintViolation.getMessage()).append(BaseConst.EMPTY_STR);
         }
         return ResultUtils.error(ErrorEnum.PARAM_ERROR.getCode(), errorMsg.toString());
     }
@@ -86,7 +90,7 @@ public class WebGlobalExceptionHandler {
         if(e.getCause() instanceof InvalidFormatException){
             InvalidFormatException cause = (InvalidFormatException)e.getCause();
             for (JsonMappingException.Reference reference : cause.getPath()) {
-                errorMsg.append(reference.getFieldName()).append(" ");
+                errorMsg.append(reference.getFieldName()).append(BaseConst.EMPTY_STR);
             }
             return ResultUtils.error(ErrorEnum.PARAM_FORMAT_ERROR.getCode(), errorMsg.toString());
         }

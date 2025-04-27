@@ -23,6 +23,11 @@
             <artifactId>mdf-common</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.hqy.mdf</groupId>
+            <artifactId>mdf-base-starter</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
         <!-- web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

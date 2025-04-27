@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.hqy.mdf.base.starter.config.BaseWebAutoConfiguration
+com.hqy.mdf.base.starter.config.BaseAutoConfiguration

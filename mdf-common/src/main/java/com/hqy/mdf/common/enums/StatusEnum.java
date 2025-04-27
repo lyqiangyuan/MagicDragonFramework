@@ -36,7 +36,7 @@ public enum StatusEnum implements GainEnum<StatusEnum> {
 
     @Override
     public StatusEnum getEnumByCode(Object code) {
-        return  ENUM_MAP.get( code);
+        return  ENUM_MAP.get(code);
     }
 
 

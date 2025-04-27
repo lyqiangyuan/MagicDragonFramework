@@ -1,9 +1,8 @@
 package com.hqy.mdf.common.bean;
 
-import com.hqy.mdf.common.constant.BaseConst;
 import com.hqy.mdf.common.enums.ErrorEnum;
+import com.hqy.mdf.common.util.LogUtils;
 import lombok.Data;
-import org.slf4j.MDC;
 
 import java.io.Serializable;
 
@@ -35,7 +34,7 @@ public class Result<T> implements Serializable {
 
 
     public Result() {
-        this.traceId = MDC.get(BaseConst.TRACE_ID);
+        this.traceId = LogUtils.getTraceId();
     }
 
 
@@ -43,19 +42,19 @@ public class Result<T> implements Serializable {
         this.result = result;
         this.errorCode = ErrorEnum.SUCCESS.getCode();
         this.errorMsg = ErrorEnum.SUCCESS.getMsg();
-        this.traceId = MDC.get(BaseConst.TRACE_ID);
+        this.traceId = LogUtils.getTraceId();
     }
 
     public Result(ErrorCodeMsg error) {
         this.errorCode = error.getCode();
         this.errorMsg = error.getMsg();
-        this.traceId = MDC.get(BaseConst.TRACE_ID);
+        this.traceId = LogUtils.getTraceId();
     }
 
     public Result(String errorCode, String errorMsg) {
         this.errorCode = errorCode;
         this.errorMsg = errorMsg;
-        this.traceId = MDC.get(BaseConst.TRACE_ID);
+        this.traceId = LogUtils.getTraceId();
     }
 
     public boolean isSuccess() {
