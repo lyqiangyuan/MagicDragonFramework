@@ -1,2 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.hqy.mdf.base.starter.config.BaseAutoConfiguration
+com.hqy.mdf.base.starter.config.WebAutoConfiguration
+
+org.springframework.boot.env.EnvironmentPostProcessor=\
+com.hqy.mdf.base.starter.processor.DubboBaseEnvironmentPostProcessor

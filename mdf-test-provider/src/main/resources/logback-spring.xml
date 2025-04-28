@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true">
+
+    <!--输出到控制台-->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <!--日志格式化-->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%X{traceId}] [%thread] [%logger{36}.%M:%L] : %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <!--它也是loger元素，但是它是根loger,是所有loger的上级。只有一个level属性，因为name已经被命名为"root",且已经是最上级了。level: 用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL和OFF，不能设置为INHERITED或者同义词NULL。 默认是DEBUG。-->
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

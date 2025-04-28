@@ -31,6 +31,7 @@ public enum ErrorEnum implements ErrorCodeMsg, GainEnum<ErrorEnum> {
     REQUEST_METHODS_NOT_SUPPORTED("100000002","请求方法不支持"),
     PARAM_ERROR("100000003","参数错误"),
     PARAM_FORMAT_ERROR("1000004","参数格式不正确"),
+    TIMEOUT_ERROR("1000005","调用超时"),
     ;
 
     private final String code;

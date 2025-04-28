@@ -11,8 +11,10 @@
 
   <modules>
     <module>mdf-common</module>
-    <module>mdf-test</module>
+    <module>mdf-test-consumer</module>
     <module>mdf-base-starter</module>
+      <module>mdf-test-provider</module>
+      <module>mdf-test-api</module>
   </modules>
 
   <properties>

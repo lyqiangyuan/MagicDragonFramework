@@ -20,7 +20,7 @@ public class LogUtils {
     /**
      * 环境中设置追踪日志Id
      */
-    public static void setTraceIdIfAbsent(String traceId){
+    public static void setTraceId(String traceId){
         MDC.put(BaseConst.TRACE_ID, traceId == null || traceId.isEmpty() ? createTraceId() : traceId);
     }
     /**
@@ -28,14 +28,6 @@ public class LogUtils {
      */
     public static String getTraceId(){
         return MDC.get(BaseConst.TRACE_ID);
-    }
-
-    /**
-     * 从环境中追踪日志Id,如果不存在，创建一个
-     */
-    public static String getTraceIdIfAbsent() {
-        String traceId = getTraceId();
-        return traceId == null || traceId.isEmpty() ? createTraceId() : traceId;
     }
 
     public static void removeTraceId() {

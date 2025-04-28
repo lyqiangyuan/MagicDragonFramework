@@ -50,7 +50,7 @@ public class WebTraceIdFilter extends GenericFilterBean {
             //如果请求头和cookies中都没有traceId，从请求参数中获取traceId
             traceId = request.getParameter(BaseConst.TRACE_ID);
         }
-        LogUtils.setTraceIdIfAbsent(traceId);
+        LogUtils.setTraceId(traceId);
         chain.doFilter(request, response);
         LogUtils.removeTraceId();
 

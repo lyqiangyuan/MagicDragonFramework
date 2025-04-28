@@ -3,6 +3,7 @@ package com.hqy.mdf.common.util;
 
 import com.hqy.mdf.common.bean.ErrorCodeMsg;
 import com.hqy.mdf.common.bean.Result;
+import com.hqy.mdf.common.exception.BaseException;
 
 /**
  * @author hqy
@@ -18,6 +19,13 @@ public class ResultUtils {
      * 失败
      */
     public static <T> Result<T> error(ErrorCodeMsg errorCodeMsg){
+        return new Result<T>(errorCodeMsg);
+    }
+
+    /**
+     * 失败
+     */
+    public static <T> Result<T> error(BaseException errorCodeMsg){
         return new Result<T>(errorCodeMsg);
     }
 

@@ -1,1 +1,2 @@
-
+dubboGlobalExceptionFilter=com.hqy.mdf.base.starter.filter.DubboGlobalExceptionFilter
+dubboTraceIdExceptionFilter=com.hqy.mdf.base.starter.filter.DubboTraceIdExceptionFilter

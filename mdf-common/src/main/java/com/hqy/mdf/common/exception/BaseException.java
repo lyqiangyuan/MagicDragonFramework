@@ -6,7 +6,7 @@ import com.hqy.mdf.common.bean.ErrorCodeMsg;
 /**
  * @author hqy
  */
-public class BaseException extends RuntimeException{
+public class BaseException extends RuntimeException implements ErrorCodeMsg{
 
     /**
      * 错误码
@@ -29,14 +29,13 @@ public class BaseException extends RuntimeException{
         this(errorCodeMsg.getCode(), errorCodeMsg.getMsg());
     }
 
-    public String getErrorCode() {
+    @Override
+    public String getCode() {
         return errorCode;
     }
 
-
-    public String getErrorMsg() {
+    @Override
+    public String getMsg() {
         return errorMsg;
     }
-
-
 }
