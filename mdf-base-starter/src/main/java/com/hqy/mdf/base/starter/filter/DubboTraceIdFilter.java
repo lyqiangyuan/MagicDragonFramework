@@ -15,8 +15,8 @@ import org.slf4j.MDC;
  * @author hqy
  */
 @Slf4j
-@Activate(group = {CommonConstants.PROVIDER,CommonConstants.CONSUMER})
-public class DubboTraceIdExceptionFilter implements Filter {
+@Activate(group = {CommonConstants.PROVIDER,CommonConstants.CONSUMER},order = -1)
+public class DubboTraceIdFilter implements Filter {
 
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
@@ -37,7 +37,13 @@ public class DubboTraceIdExceptionFilter implements Filter {
             //设置追踪日志ID
             MDC.put(BaseConst.TRACE_ID, traceId);
         }
-        return invoker.invoke(invocation);
+        Result result = invoker.invoke(invocation);
+        //服务端来说，需要把traceId从上下文中移除
+        if (RpcContext.getContext().isProviderSide()) {
+            MDC.remove(BaseConst.TRACE_ID);
+        }
+
+        return result;
     }
 
 }

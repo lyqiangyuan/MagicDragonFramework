@@ -1,10 +1,10 @@
 package com.hqy.mdf.test.provider.service;
 
-import com.hqy.mdf.test.api.TestApi;
-import com.hqy.mdf.test.api.dto.resp.TestRespDTO;
-import com.hqy.mdf.test.api.dto.req.TestReqDTO;
 import com.hqy.mdf.common.bean.Result;
 import com.hqy.mdf.common.util.ResultUtils;
+import com.hqy.mdf.test.api.TestApi;
+import com.hqy.mdf.test.api.dto.req.TestReqDTO;
+import com.hqy.mdf.test.api.dto.resp.TestRespDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 
@@ -32,5 +32,6 @@ public class TestApiImpl implements TestApi {
         testRespDTO.setAddress("上海市徐汇区上海南站300米");
         testRespDTO.setCustomize("自定义字段");
         return ResultUtils.success(testRespDTO);
+//        throw new RuntimeException("测试异常");
     }
 }

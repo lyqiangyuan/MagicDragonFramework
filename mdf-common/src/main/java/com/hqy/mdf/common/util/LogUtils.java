@@ -14,7 +14,7 @@ public class LogUtils {
      * 创建追踪Id
      */
     public static String createTraceId(){
-        return UUID.randomUUID().toString();
+        return System.currentTimeMillis() + UUID.randomUUID().toString().replace("-","");
     }
 
     /**

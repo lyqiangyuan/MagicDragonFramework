@@ -35,6 +35,8 @@ public class DubboGlobalExceptionFilter extends ExceptionFilter {
             if (exception instanceof BaseException) {
                 return AsyncRpcResult.newDefaultAsyncResult(ResultUtils.error((BaseException) exception), invocation);
             }
+            //其他异常
+            return AsyncRpcResult.newDefaultAsyncResult(ResultUtils.error(ErrorEnum.INTERNAL_HAPPEN_EXCEPTION), invocation);
         }
         return result;
 
