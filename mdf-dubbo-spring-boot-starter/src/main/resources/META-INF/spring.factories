@@ -1,0 +1,2 @@
+org.springframework.boot.env.EnvironmentPostProcessor=\
+com.hqy.mdf.dubbo.starter.processor.DubboBaseEnvironmentPostProcessor

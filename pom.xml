@@ -15,6 +15,8 @@
     <module>mdf-base-starter</module>
       <module>mdf-test-provider</module>
       <module>mdf-test-api</module>
+    <module>mdf-web-spring-boot-starter</module>
+    <module>mdf-dubbo-spring-boot-starter</module>
   </modules>
 
   <properties>

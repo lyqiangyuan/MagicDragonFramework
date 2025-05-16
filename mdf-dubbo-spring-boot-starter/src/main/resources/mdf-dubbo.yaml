@@ -1,0 +1,5 @@
+dubbo:
+  provider:
+    validation: true
+  consumer:
+    check: false

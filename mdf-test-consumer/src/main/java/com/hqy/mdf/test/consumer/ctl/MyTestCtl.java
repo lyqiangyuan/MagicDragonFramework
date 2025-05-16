@@ -1,17 +1,24 @@
 package com.hqy.mdf.test.consumer.ctl;
 
 import com.alibaba.fastjson2.JSON;
-import com.hqy.mdf.test.api.TestApi;
-import com.hqy.mdf.test.consumer.vo.TestVO;
-import com.hqy.mdf.test.api.dto.req.TestReqDTO;
-import com.hqy.mdf.test.api.dto.resp.TestRespDTO;
 import com.hqy.mdf.common.bean.Result;
 import com.hqy.mdf.common.util.ResultUtils;
+import com.hqy.mdf.test.api.TestApi;
+import com.hqy.mdf.test.api.dto.req.TestReqDTO;
+import com.hqy.mdf.test.api.dto.resp.TestRespDTO;
 import com.hqy.mdf.test.consumer.vo.TestRespVO;
+import com.hqy.mdf.test.consumer.vo.TestVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @author hqy
@@ -55,5 +62,12 @@ public class MyTestCtl {
     public Result<TestRespDTO> test4(@RequestBody TestReqDTO reqDTO){
         log.info("test4 reqDTO:{}", JSON.toJSONString(reqDTO));
         return testApi.test(reqDTO);
+    }
+
+    @PostMapping("/test5")
+    public ResponseEntity<?> test5(@RequestParam(value = "file", required = true) MultipartFile file) throws IOException {
+        return ResponseEntity.ok()
+                .contentType(MediaType.valueOf(Objects.requireNonNull(file.getContentType())))
+                .body(new InputStreamResource(file.getInputStream()));
     }
 }
