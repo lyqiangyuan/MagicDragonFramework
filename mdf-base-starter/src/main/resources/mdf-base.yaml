@@ -1,8 +1,0 @@
-dubbo:
-  protocol:
-    name: dubbo
-    port: 20880
-  provider:
-    validation: true
-  consumer:
-    check: false

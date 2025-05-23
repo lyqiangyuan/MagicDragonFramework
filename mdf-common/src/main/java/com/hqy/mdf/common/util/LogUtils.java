@@ -21,17 +21,17 @@ public class LogUtils {
      * 环境中设置追踪日志Id
      */
     public static void setTraceId(String traceId){
-        MDC.put(BaseConst.TRACE_ID, traceId == null || traceId.isEmpty() ? createTraceId() : traceId);
+        MDC.put(BaseConst.MDF_TRACE_ID, traceId == null || traceId.isEmpty() ? createTraceId() : traceId);
     }
     /**
      * 从环境中追踪日志Id
      */
     public static String getTraceId(){
-        return MDC.get(BaseConst.TRACE_ID);
+        return MDC.get(BaseConst.MDF_TRACE_ID);
     }
 
     public static void removeTraceId() {
-        MDC.remove(BaseConst.TRACE_ID);
+        MDC.remove(BaseConst.MDF_TRACE_ID);
     }
 
 

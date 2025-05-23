@@ -21,7 +21,7 @@ import java.io.IOException;
  */
 @Slf4j
 @Order(value = 10000)
-@WebFilter(filterName="webTraceIdFilter",urlPatterns="/*")
+@WebFilter(filterName="webTraceIdFilter")
 public class WebTraceIdFilter extends GenericFilterBean {
 
     @Override
@@ -30,14 +30,14 @@ public class WebTraceIdFilter extends GenericFilterBean {
         if (request instanceof HttpServletRequest) {
             //获取请求头traceId
             HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-            traceId = httpServletRequest.getHeader(BaseConst.TRACE_ID);
+            traceId = httpServletRequest.getHeader(BaseConst.MDF_TRACE_ID);
 
             if (StringUtils.isEmpty(traceId)) {
                 //如果请求头中没有traceId，从cookie中获取traceId
                 Cookie[] cookies = httpServletRequest.getCookies();
                 if (cookies != null) {
                     for (int i = 0; i < cookies.length; i++) {
-                        if (BaseConst.TRACE_ID.equals(cookies[i].getName()) && !StringUtils.isEmpty(cookies[i].getValue())) {
+                        if (BaseConst.MDF_TRACE_ID.equals(cookies[i].getName()) && !StringUtils.isEmpty(cookies[i].getValue())) {
                             traceId = cookies[i].getValue();
                             break;
                         }
@@ -48,7 +48,7 @@ public class WebTraceIdFilter extends GenericFilterBean {
 
         if (StringUtils.isEmpty(traceId)) {
             //如果请求头和cookies中都没有traceId，从请求参数中获取traceId
-            traceId = request.getParameter(BaseConst.TRACE_ID);
+            traceId = request.getParameter(BaseConst.MDF_TRACE_ID);
         }
         LogUtils.setTraceId(traceId);
         chain.doFilter(request, response);

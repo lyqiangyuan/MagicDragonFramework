@@ -1,12 +1,14 @@
 package com.hqy.mdf.web.starter.filter;
 
+import com.hqy.mdf.web.starter.wrapper.BodyCachingRequestWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
-import org.springframework.web.util.ContentCachingRequestWrapper;
+import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
-import javax.servlet.*;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -15,101 +17,112 @@ import java.util.*;
 
 /**
  * @author hqy
- * @date 2025/5/16
  */
 @Slf4j
 @Order(value = 20000)
-@Component
-public class WebLogFilter implements Filter {
+@WebFilter(filterName = "webLogFilter")
+public class WebLogFilter extends OncePerRequestFilter {
 
-    private static final List<String> BINARY_CONTENT_TYPES = Arrays.asList(
-            "application/octet-stream",
-            "image/",
-            "video/",
-            "audio/",
-            "application/zip",
-            "application/pdf",
-            "application/msword"
+    final int maxPayloadLength = 1024 * 10;
+
+    final List<String> printableContentTypes = Arrays.asList(
+            "application/json",
+            "text/plain",
+            "text/json",
+            "application/xml"
     );
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
         long startTime = System.currentTimeMillis();
 
         // 包装原始请求以允许多次读取请求体
-        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper((HttpServletRequest) request);
-        ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper((HttpServletResponse) response);
-
-        // 打印请求信息
+        BodyCachingRequestWrapper requestWrapper = new BodyCachingRequestWrapper(request);
+//        ContentCachingRequestWrapper cachingRequestWrapper = new ContentCachingRequestWrapper(request);
+        ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
+        //记录请求
         logRequest(requestWrapper);
-
-        // 继续处理请求
-        chain.doFilter(requestWrapper, responseWrapper);
-
-        // 打印响应信息
+        //继续处理请求
+        filterChain.doFilter(requestWrapper, responseWrapper);
+        //记录响应
         logResponse(responseWrapper, startTime);
-
         // 将响应内容写回原始响应
         responseWrapper.copyBodyToResponse();
+
     }
 
-    private void logRequest(ContentCachingRequestWrapper request) {
+    private boolean shouldLogBody(String contentType) {
+        return contentType != null &&
+                printableContentTypes.stream().anyMatch(contentType::startsWith);
+    }
+
+
+    private void logRequest(HttpServletRequest request) throws IOException {
         StringBuilder requestLog = new StringBuilder();
-        requestLog.append("\n=============== Web Request Start ===============\n");
-        requestLog.append("Method: ").append(request.getMethod()).append("\n");
+        requestLog.append("\n========== Log Request Start ==========\n");
         requestLog.append("URI: ").append(request.getRequestURI()).append("\n");
+        requestLog.append("Method: ").append(request.getMethod()).append("\n");
+        requestLog.append("RemoteAddr: ").append(request.getRemoteAddr()).append("\n");
         requestLog.append("Headers: ").append(getHeadersInfo(request)).append("\n");
-        requestLog.append("Query String: ").append(request.getQueryString()).append("\n");
-        requestLog.append("Request Parameters: ").append(getParameters(request)).append("\n");
-        requestLog.append("Request Body: ").append(getRequestPayload(request)).append("\n");
-        requestLog.append("=============== Web Request End ===============");
+        requestLog.append("Parameters: ").append(getParameters(request)).append("\n");
+        if (shouldLogBody(request.getContentType())) {
+            requestLog.append("Body: ").append(getRequestPayload(request)).append("\n");
+        }
+        requestLog.append("========== Log Request End ==========");
         log.info(requestLog.toString());
     }
 
-    private void logResponse(ContentCachingResponseWrapper response, long startTime) {
+    private void logResponse(HttpServletResponse response, long startTime) {
         StringBuilder responseLog = new StringBuilder();
-        responseLog.append("\n=============== Web Response Start ===============\n");
+        responseLog.append("\n========== Log Response Start ==========\n");
         responseLog.append("Status: ").append(response.getStatus()).append("\n");
         responseLog.append("Headers: ").append(getResponseHeadersInfo(response)).append("\n");
         responseLog.append("Content-Type: ").append(response.getContentType()).append("\n");
-        responseLog.append("Content-Length: ").append(response.getContentSize()).append(" bytes\n");
-         //检查是否是二进制响应类型
-        if (!isBinaryContent(response.getContentType())) {
+        if (shouldLogBody(response.getContentType())) {
             // 打印响应体
-            responseLog.append("Response Body: ").append(getResponsePayload(response)).append("\n");
+            responseLog.append("Body: ").append(getResponsePayload(response)).append("\n");
         }
         responseLog.append("Time Taken: ").append(System.currentTimeMillis() - startTime).append("ms\n");
-        responseLog.append("=============== Web Response End ===============");
+        responseLog.append("========== Log Response End ==========");
         log.info(responseLog.toString());
     }
 
-    private String getRequestPayload(ContentCachingRequestWrapper request) {
-        if (request != null) {
-            byte[] buf = request.getContentAsByteArray();
-            if (buf.length > 0) {
-                try {
-                    return new String(buf, request.getCharacterEncoding());
-                } catch (Exception e) {
-                    return "[Request payload could not be parsed]";
-                }
-
+    private String getRequestPayload(HttpServletRequest request) {
+        if (request instanceof BodyCachingRequestWrapper) {
+            if (request.getContentLength() > maxPayloadLength) {
+                return "[Request payload is too large to log]";
             }
+            try {
+                byte[] buf = ((BodyCachingRequestWrapper) request).getRequestBody();
+                if (buf.length > 0) {
+                    return new String(buf, request.getCharacterEncoding());
+                }
+            } catch (Exception e) {
+                return "[Request payload could not be parsed]";
+            }
+
         }
-        return "";
+        return null;
     }
 
-    private String getResponsePayload(ContentCachingResponseWrapper response) {
-        if (response != null) {
-            byte[] buf = response.getContentAsByteArray();
+    private String getResponsePayload(HttpServletResponse response) {
+        if (response instanceof ContentCachingResponseWrapper) {
+            ContentCachingResponseWrapper responseWrapper = (ContentCachingResponseWrapper) response;
+            if (responseWrapper.getContentSize() > maxPayloadLength) {
+                return "[Response payload is too large to log]";
+
+            }
+            byte[] buf = responseWrapper.getContentAsByteArray();
             if (buf.length > 0) {
                 try {
-                    return new String(buf,StandardCharsets.UTF_8);
+                    return new String(buf, StandardCharsets.UTF_8);
                 } catch (Exception e) {
                     return "[Response payload could not be parsed]";
                 }
             }
         }
-        return "";
+        return null;
     }
 
     private Map<String, String> getHeadersInfo(HttpServletRequest request) {
@@ -123,7 +136,7 @@ public class WebLogFilter implements Filter {
         return map;
     }
 
-    private Map<String, String> getResponseHeadersInfo(ContentCachingResponseWrapper response) {
+    private Map<String, String> getResponseHeadersInfo(HttpServletResponse response) {
         Map<String, String> map = new HashMap<>();
         Collection<String> headerNames = response.getHeaderNames();
         for (String header : headerNames) {
@@ -132,28 +145,18 @@ public class WebLogFilter implements Filter {
         return map;
     }
 
-    private boolean isBinaryContent(String contentType) {
-        if (contentType == null) {
-            return false;
-        }
-        return BINARY_CONTENT_TYPES.stream().anyMatch(contentType::startsWith);
-    }
-
-    private String getParameters(ContentCachingRequestWrapper request) {
-        // 这里只能获取参数名，不能获取文件内容
-        // 完整的文件内容获取需要解析multipart请求，这超出了简单过滤器的范围
+    private String getParameters(HttpServletRequest request) {
         Map<String, String[]> parameterMap = request.getParameterMap();
         StringBuilder params = new StringBuilder();
-
+        boolean first = true;
         for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
+            if (!first) {
+                params.append(", ");
+            }
             params.append(entry.getKey()).append("=");
-            params.append(Arrays.toString(entry.getValue())).append(", ");
+            params.append(Arrays.toString(entry.getValue()));
+            first = false;
         }
-
-        if (params.length() > 0) {
-            params.setLength(params.length() - 2); // 移除最后的逗号和空格
-        }
-
         return params.toString();
     }
 }

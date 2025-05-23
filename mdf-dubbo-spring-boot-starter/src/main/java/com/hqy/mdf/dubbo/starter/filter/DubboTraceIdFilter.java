@@ -27,20 +27,20 @@ public class DubboTraceIdFilter implements Filter {
                 traceId = LogUtils.createTraceId();
                 LogUtils.setTraceId(traceId);
             }
-            RpcContext.getContext().setAttachment(BaseConst.TRACE_ID, traceId);
+            RpcContext.getContext().setAttachment(BaseConst.MDF_TRACE_ID, traceId);
         } else {
             //在从上下文中获取
-            String traceId = RpcContext.getContext().getAttachment(BaseConst.TRACE_ID);
+            String traceId = RpcContext.getContext().getAttachment(BaseConst.MDF_TRACE_ID);
             if (StringUtils.isEmpty(traceId)) {
                 traceId = LogUtils.createTraceId();
             }
             //设置追踪日志ID
-            MDC.put(BaseConst.TRACE_ID, traceId);
+            MDC.put(BaseConst.MDF_TRACE_ID, traceId);
         }
         Result result = invoker.invoke(invocation);
         //服务端来说，需要把traceId从上下文中移除
         if (RpcContext.getContext().isProviderSide()) {
-            MDC.remove(BaseConst.TRACE_ID);
+            MDC.remove(BaseConst.MDF_TRACE_ID);
         }
 
         return result;

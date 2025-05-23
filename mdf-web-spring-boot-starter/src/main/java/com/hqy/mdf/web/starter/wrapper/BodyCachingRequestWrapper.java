@@ -1,46 +1,55 @@
 package com.hqy.mdf.web.starter.wrapper;
 
 import org.springframework.util.StreamUtils;
-import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * body缓存请求包装器，把请求体的内容缓存下来
  * @author hqy
  */
-public class BodyCachingRequestWrapper extends ContentCachingRequestWrapper {
-    private byte[] requestBody;
+public class BodyCachingRequestWrapper extends HttpServletRequestWrapper {
+    private byte[] bodyCache;
+
+    private BufferedReader reader;
 
     public BodyCachingRequestWrapper(HttpServletRequest request) {
         super(request);
     }
 
-    public byte[] getRequestBody() throws IOException {
-        requestBody = StreamUtils.copyToByteArray(super.getInputStream());
-        return requestBody;
+    @Override
+    public BufferedReader getReader() throws IOException {
+        if (this.reader == null) {
+            this.reader = new BufferedReader(new InputStreamReader(getInputStream(), getCharacterEncoding()));
+        }
+        return this.reader;
     }
 
-
+    public byte[] getRequestBody() throws IOException {
+        if (bodyCache == null) {
+            bodyCache = StreamUtils.copyToByteArray(super.getInputStream());
+        }
+        return bodyCache;
+    }
 
     @Override
     public ServletInputStream getInputStream() throws IOException {
-        if (requestBody == null) {
-            requestBody = StreamUtils.copyToByteArray(super.getInputStream());
-        }
-        final ByteArrayInputStream bais = new ByteArrayInputStream(requestBody);
+
+        final ByteArrayInputStream bais = new ByteArrayInputStream(getRequestBody());
         //参照springmvc  org.springframework.web.servlet.function.DefaultServerRequestBuilder.BodyInputStream
         return new ServletInputStream() {
 
             @Override
             public boolean isFinished() {
-                return false;
+                return bais.available() == 0;
             }
-
             @Override
             public boolean isReady() {
                 return true;

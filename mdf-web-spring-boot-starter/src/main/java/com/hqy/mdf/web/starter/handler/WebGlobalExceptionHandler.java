@@ -27,8 +27,6 @@ import javax.validation.ConstraintViolationException;
 @RestControllerAdvice
 public class WebGlobalExceptionHandler {
 
-
-
     /**
      * 处理Validated校验异常
      */
