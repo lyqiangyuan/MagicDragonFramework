@@ -5,11 +5,12 @@
         <groupId>com.hqy.mdf</groupId>
         <artifactId>MagicDragonFramework-parent</artifactId>
         <version>${revision}</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>mdf-dubbo-spring-boot-starter</artifactId>
+    <artifactId>mdf-logback</artifactId>
     <packaging>jar</packaging>
+
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,15 +20,13 @@
         <dependency>
             <groupId>com.hqy.mdf</groupId>
             <artifactId>mdf-common</artifactId>
-            <version>${project.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
+        <!-- Logback 依赖 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-spring-boot-starter</artifactId>
-        </dependency>
+
     </dependencies>
 </project>

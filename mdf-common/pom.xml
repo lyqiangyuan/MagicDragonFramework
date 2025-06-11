@@ -4,13 +4,13 @@
     <parent>
         <groupId>com.hqy.mdf</groupId>
         <artifactId>MagicDragonFramework-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>mdf-common</artifactId>
     <packaging>jar</packaging>
 
-    <name>mdf-common</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

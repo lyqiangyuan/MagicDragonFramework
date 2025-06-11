@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author hqy
@@ -33,6 +33,21 @@ public class MyTestCtl {
 
     @GetMapping("/test1")
     public Result<?> test1(@RequestParam(value = "abc") String abc){
+        // 测试 JSON 格式日志
+        Map<String, Object> userInfo = new HashMap<>();
+        userInfo.put("phoneNumber", "13812345678");
+        userInfo.put("idCard", "310123199001011234");
+        userInfo.put("bankCard", "6222021234567890123");
+        userInfo.put("email", "test@example.com");
+
+        List<Map> abcList = new ArrayList<>();
+        abcList.add(userInfo);
+        abcList.add(userInfo);
+
+        log.info("jsonString用户信息:{}",JSON.toJSONString(userInfo));
+        log.info("toString用户信息:{}",userInfo);
+        log.info("all用户信息: jsonString:{},toString{}",JSON.toJSONString(userInfo),userInfo);
+        log.info("list用户信息: jsonString:{},toString{}",JSON.toJSONString(abcList),abcList);
         return ResultUtils.success(abc);
     }
 

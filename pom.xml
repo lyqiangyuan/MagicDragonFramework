@@ -4,21 +4,21 @@
 
   <groupId>com.hqy.mdf</groupId>
   <artifactId>MagicDragonFramework-parent</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>${revision}</version>
   <packaging>pom</packaging>
-
-  <name>MagicDragonFramework</name>
 
   <modules>
     <module>mdf-common</module>
     <module>mdf-web-spring-boot-starter</module>
     <module>mdf-dubbo-spring-boot-starter</module>
-    <module>mdf-test-api</module>
-    <module>mdf-test-consumer</module>
-    <module>mdf-test-provider</module>
+    <module>mdf-log/mdf-log4j2</module>
+    <module>mdf-test</module>
+    <module>mdf-log/mdf-logback</module>
+    <module>mdf-log/mdf-log4j2</module>
   </modules>
 
   <properties>
+    <revision>1.0.0-SNAPSHOT</revision>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <junit.version>3.8.1</junit.version>
     <spring-boot-dependencies.version>2.3.12.RELEASE</spring-boot-dependencies.version>

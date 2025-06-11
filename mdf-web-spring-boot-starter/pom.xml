@@ -4,14 +4,12 @@
     <parent>
         <groupId>com.hqy.mdf</groupId>
         <artifactId>MagicDragonFramework-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>mdf-web-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
-
-    <name>mdf-base-spring-boot-starter</name>
-    <url>http://maven.apache.org</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

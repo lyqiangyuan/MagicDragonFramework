@@ -14,7 +14,7 @@ public class DesensitizationUtils {
 
     private static final char MASK_CHAR = '*';
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     /**
      * 字符串脱敏
@@ -82,7 +82,7 @@ public class DesensitizationUtils {
 
     public static String toJsonStr(Object object) {
         try {
-            return objectMapper.writeValueAsString(object);
+            return OBJECT_MAPPER.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

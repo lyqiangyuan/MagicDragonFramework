@@ -1,0 +1,23 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.hqy.mdf</groupId>
+        <artifactId>MagicDragonFramework-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>mdf-test</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>mdf-test-api</module>
+        <module>mdf-test-consumer</module>
+        <module>mdf-test-provider</module>
+    </modules>
+
+    <properties>
+        <skip_maven_deploy>true</skip_maven_deploy>
+    </properties>
+</project>
