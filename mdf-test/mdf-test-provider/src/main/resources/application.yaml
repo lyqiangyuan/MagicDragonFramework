@@ -2,13 +2,13 @@ server:
   port: 8081
 spring:
   application:
-    name: dubbo-demo-provider
+    name: mdf-test-provider
   mvc:
     throw-exception-if-no-handler-found: true
   resources:
     add-mappings: false
 dubbo:
   application:
-    name: dubbo-demo-provider
+    name: mdf-test-provider
   registry:
     address: zookeeper://127.0.0.1:2181

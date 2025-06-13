@@ -1,4 +1,4 @@
-package com.hqy.mdf.log.logback.rule;
+package com.hqy.mdf.log.rule;
 
 import com.hqy.mdf.common.util.DesensitizationUtils;
 
@@ -10,12 +10,7 @@ import java.util.regex.Matcher;
 public class GlobalDesensitizeRule extends AbstractDesensitizeRule {
 
     @Override
-    public boolean isMatch(String key, String value) {
-        throw  new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public boolean isMatch(String msg) {
+    public boolean match(String key, String value, String msg) {
         if (pattern != null && pattern.matcher(msg).find()) {
             return true;
         }

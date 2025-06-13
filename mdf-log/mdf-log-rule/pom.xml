@@ -8,9 +8,10 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>mdf-logback</artifactId>
+    <artifactId>mdf-log-rule</artifactId>
     <packaging>jar</packaging>
 
+    <name>mdf-log-rule</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,14 +20,8 @@
     <dependencies>
         <dependency>
             <groupId>com.hqy.mdf</groupId>
-            <artifactId>mdf-log-rule</artifactId>
+            <artifactId>mdf-common</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-        <!-- Logback 依赖 -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-        </dependency>
-
     </dependencies>
 </project>

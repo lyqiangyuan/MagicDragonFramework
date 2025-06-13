@@ -1,6 +1,8 @@
-package com.hqy.mdf.log.logback.rule;
+package com.hqy.mdf.log.rule;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,6 +11,8 @@ import java.util.List;
  * @author hqy
  */
 @Data
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class CustomizeDesensitizeRule extends AbstractDesensitizeRule {
 
     /**
@@ -48,17 +52,12 @@ public class CustomizeDesensitizeRule extends AbstractDesensitizeRule {
 
 
     @Override
-    public boolean isMatch(String key, String value) {
+    public boolean match(String key, String value, String msg) {
         if (keyList != null && keyList.contains(key)
                 && (pattern == null || pattern.matcher(value).matches())) {
             return true;
         }
         return false;
-    }
-
-    @Override
-    public boolean isMatch(String msg) {
-        throw  new UnsupportedOperationException("Not supported yet.");
     }
 
 }

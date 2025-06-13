@@ -1,6 +1,5 @@
-package com.hqy.mdf.log.logback;
+package com.hqy.mdf.log.rule;
 
-import com.hqy.mdf.log.logback.rule.DesensitizeRule;
 import lombok.Data;
 
 import java.util.List;

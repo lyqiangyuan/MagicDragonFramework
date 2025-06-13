@@ -1,8 +1,6 @@
-package com.hqy.mdf.log.logback;
+package com.hqy.mdf.log.rule;
 
 import com.hqy.mdf.common.enums.DesensitizationTypeEnum;
-import com.hqy.mdf.log.logback.rule.DesensitizeRule;
-import com.hqy.mdf.log.logback.rule.GlobalDesensitizeRule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +92,7 @@ public class LogDesensitizer {
     private String applyGlobalPatterns(String message) {
         for (int i = 0; i < globalPatterns.size(); i++) {
             DesensitizeRule rule = globalPatterns.get(i);
-            if (rule.isMatch(message)) {
+            if (rule.match(null,null,message)) {
                 message = rule.desensitize(message);
             }
         }
@@ -122,7 +120,7 @@ public class LogDesensitizer {
             if (rules != null && !rules.isEmpty()) {
                 for (int i = 0; i < rules.size(); i++) {
                     DesensitizeRule rule = rules.get(i);
-                    if (rule.isMatch(fieldName, value)) {
+                    if (rule.match(fieldName, value,null)) {
                         return rule.desensitize(value);
                     }
                 }

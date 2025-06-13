@@ -12,9 +12,9 @@
     <module>mdf-web-spring-boot-starter</module>
     <module>mdf-dubbo-spring-boot-starter</module>
     <module>mdf-log/mdf-log4j2</module>
-    <module>mdf-test</module>
     <module>mdf-log/mdf-logback</module>
-    <module>mdf-log/mdf-log4j2</module>
+    <module>mdf-test</module>
+      <module>mdf-log/mdf-log-rule</module>
   </modules>
 
   <properties>

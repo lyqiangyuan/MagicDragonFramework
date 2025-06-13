@@ -2,7 +2,6 @@ package com.hqy.mdf.log.logback;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.PatternLayout;
-import ch.qos.logback.classic.pattern.MessageConverter;
 import ch.qos.logback.classic.spi.Configurator;
 import ch.qos.logback.core.spi.ContextAwareBase;
 
@@ -16,8 +15,5 @@ public class SensitiveConverterConfigurator extends ContextAwareBase implements 
         PatternLayout.defaultConverterMap.put("msg", LogDesensitizingConverter.class.getName());
         PatternLayout.defaultConverterMap.put("message", LogDesensitizingConverter.class.getName());
 
-        PatternLayout.defaultConverterMap.put("om", MessageConverter.class.getName());
-        PatternLayout.defaultConverterMap.put("oldMsg", MessageConverter.class.getName());
-        PatternLayout.defaultConverterMap.put("oldMessage", MessageConverter.class.getName());
     }
 }
