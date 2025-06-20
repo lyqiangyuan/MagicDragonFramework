@@ -31,10 +31,15 @@
             <artifactId>mdf-dubbo-spring-boot-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.hqy.mdf</groupId>
             <artifactId>mdf-log4j2</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hqy.mdf</groupId>
+            <artifactId>mdf-log-spring-boot-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
 

@@ -1,9 +1,9 @@
 package com.hqy.mdf.log.log4j2;
 
-import com.hqy.mdf.log.rule.LogDesensitizeConfig;
-import com.hqy.mdf.log.rule.LogDesensitizeProperties;
-import com.hqy.mdf.log.rule.LogDesensitizer;
-import org.apache.logging.log4j.LogManager;
+import com.hqy.mdf.log.MdfLogConstant;
+import com.hqy.mdf.log.LogDesensitizeProperties;
+import com.hqy.mdf.log.LogDesensitizer;
+import com.hqy.mdf.log.MdfLogContext;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.plugins.Plugin;
@@ -11,7 +11,6 @@ import org.apache.logging.log4j.core.pattern.ConverterKeys;
 import org.apache.logging.log4j.core.pattern.LogEventPatternConverter;
 import org.apache.logging.log4j.core.pattern.MessagePatternConverter;
 import org.apache.logging.log4j.core.pattern.PatternConverter;
-import org.apache.logging.log4j.spi.LoggerContext;
 import org.apache.logging.log4j.util.PerformanceSensitive;
 
 /**
@@ -36,12 +35,12 @@ public class LogDesensitizeConverter extends LogEventPatternConverter {
 
     @Override
     public void format(LogEvent event, StringBuilder toAppendTo) {
-        LoggerContext loggerContext = LogManager.getContext(false);
-        if (loggerContext != null) {
-            Object config = loggerContext.getObject(LogDesensitizeConfig.LOG_DESENSITIZE_CONFIG);
+        // LoggerContext loggerContext = LogManager.getContext(false);
+        // if (loggerContext != null) {
+            Object config = MdfLogContext.getObject(MdfLogConstant.LOG_DESENSITIZE_CONFIG_KEY);
             if (config instanceof LogDesensitizeProperties) {
                 LogDesensitizeProperties configProperties = (LogDesensitizeProperties) config;
-                if (configProperties.isOpen()) {
+                if (configProperties.isEnable()) {
                     StringBuilder originalMessage = new StringBuilder();
                     messagePatternConverter.format(event, originalMessage);
                     String desensitizeLog = new LogDesensitizer(configProperties).process(originalMessage.toString());
@@ -49,7 +48,7 @@ public class LogDesensitizeConverter extends LogEventPatternConverter {
                     return;
                 }
             }
-        }
+        // }
         messagePatternConverter.format(event, toAppendTo);
     }
 }

@@ -36,6 +36,7 @@ public class MyTestCtl {
         // 测试 JSON 格式日志
         Map<String, Object> userInfo = new HashMap<>();
         userInfo.put("phoneNumber", "13812345678");
+        userInfo.put("mobileNo", "13879798878");
         userInfo.put("idCard", "310123199001011234");
         userInfo.put("bankCard", "6222021234567890123");
         userInfo.put("email", "test@example.com");

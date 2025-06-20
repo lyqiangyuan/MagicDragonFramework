@@ -1,5 +1,6 @@
 package com.hqy.mdf.log.rule;
 
+import com.hqy.mdf.log.MdfLogConstant;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -33,7 +34,7 @@ public class CustomizeDesensitizeRule extends AbstractDesensitizeRule {
     // 支持 "1,2" 格式的 position 属性
     public void setPosition(String position) {
         if (position != null) {
-            String[] parts = position.split(",");
+            String[] parts = position.split(MdfLogConstant.COMMA);
             if (parts.length == 2) {
                 this.preLen = Integer.parseInt(parts[0].trim());
                 this.sufLen = Integer.parseInt(parts[1].trim());
@@ -45,7 +46,7 @@ public class CustomizeDesensitizeRule extends AbstractDesensitizeRule {
     // 支持 "password,secret" 格式的 keys 属性
     public void setKeys(String keys) {
         if (keys != null) {
-            this.keyList = Arrays.asList(keys.split(","));
+            this.keyList = Arrays.asList(keys.split(MdfLogConstant.COMMA));
         }
         this.keys = keys;
     }

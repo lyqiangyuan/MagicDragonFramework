@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>com.hqy.mdf</groupId>
-            <artifactId>mdf-log-rule</artifactId>
+            <artifactId>mdf-log-core</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>

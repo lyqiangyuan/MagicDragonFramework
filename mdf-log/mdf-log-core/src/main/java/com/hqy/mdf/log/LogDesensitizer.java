@@ -1,6 +1,7 @@
-package com.hqy.mdf.log.rule;
+package com.hqy.mdf.log;
 
-import com.hqy.mdf.common.enums.DesensitizationTypeEnum;
+import com.hqy.mdf.log.rule.CustomizeDesensitizeRule;
+import com.hqy.mdf.log.rule.DesensitizeRule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,18 +9,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LogDesensitizer {
-
-
-    // 中国手机号正则表达式
-    private static final String PHONE_REGEX = "1[3-9]\\d{9}";
-    // 15位身份证号码正则表达式
-    private static final String ID_CARD_15_REGEX = "[1-9]\\d{5}\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])\\d{3}";
-    // 18位身份证号码正则表达式
-    private static final String ID_CARD_18_REGEX = "[1-9]\\d{5}(18|19|20)\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])\\d{3}[0-9Xx]";
-    // 组合正则表达式，同时匹配15位和18位身份证号码
-    private static final String ID_CARD_REGEX = ID_CARD_15_REGEX + "|" + ID_CARD_18_REGEX;
-    // 62中国银联卡、Visa卡、Mastercard卡、美国运通卡、JCB卡的正则表达式
-    private static final String BANK_CARD_REGEX = "62[0-9]{14,17}" + "|" +"4[0-9]{15}" + "|" +"5[1-5][0-9]{14}" + "|" +"(34|37)[0-9]{13}" + "|" +"35[0-9]{14}";
 
     private final List<MsgProcessor> processors = new ArrayList<>();
     private final List<DesensitizeRule> globalPatterns = new ArrayList<>();
@@ -36,38 +25,11 @@ public class LogDesensitizer {
 
         if (properties != null && properties.getGlobalRules() != null) {
             globalPatterns.addAll(properties.getGlobalRules());
-            if (properties.isAddDefaultGlobalRules()) {
-                globalPatterns.addAll(getDefaultGlobalRules());
-            }
-        }else {
-            globalPatterns.addAll(getDefaultGlobalRules());
+        }
+        if (properties != null && properties.isAddDefaultGlobalRules()) {
+            globalPatterns.addAll(MdfLogContext.getDefaultGlobalRules());
         }
 
-    }
-
-    private List<DesensitizeRule> getDefaultGlobalRules() {
-        List<DesensitizeRule> defaultGlobalRules = new ArrayList<>();
-        //手机号
-        GlobalDesensitizeRule rule1 = new GlobalDesensitizeRule();
-        rule1.setPattern(Pattern.compile(PHONE_REGEX));
-        rule1.setPreLen(DesensitizationTypeEnum.MOBILE_NO.getPreLength());
-        rule1.setSufLen(DesensitizationTypeEnum.MOBILE_NO.getSufLength());
-        defaultGlobalRules.add(rule1);
-
-        //身份证号
-        GlobalDesensitizeRule rule2 = new GlobalDesensitizeRule();
-        rule2.setPattern(Pattern.compile(ID_CARD_REGEX));
-        rule2.setPreLen(DesensitizationTypeEnum.ID_CARD_NO.getPreLength());
-        rule2.setSufLen(DesensitizationTypeEnum.ID_CARD_NO.getSufLength());
-        defaultGlobalRules.add(rule2);
-
-        //银行卡号
-        GlobalDesensitizeRule rule3 = new GlobalDesensitizeRule();
-        rule3.setPattern(Pattern.compile(BANK_CARD_REGEX));
-        rule3.setPreLen(DesensitizationTypeEnum.BANK_CARD_NO.getPreLength());
-        rule3.setSufLen(DesensitizationTypeEnum.BANK_CARD_NO.getSufLength());
-        defaultGlobalRules.add(rule3);
-        return defaultGlobalRules;
     }
     
     public String process(String logMessage) {
@@ -107,9 +69,9 @@ public class LogDesensitizer {
 
     static abstract class AbstractProcessor implements MsgProcessor {
 
-        private List<DesensitizeRule>  rules;
+        private final List<CustomizeDesensitizeRule>  rules;
 
-        AbstractProcessor(List<DesensitizeRule> rules) {
+        AbstractProcessor(List<CustomizeDesensitizeRule> rules) {
             this.rules = rules;
         }
 
@@ -136,7 +98,7 @@ public class LogDesensitizer {
         private static final Pattern KEY_VALUE_PATTERN =
                 Pattern.compile("\"(\\w+)\"(\\s*:\\s*)\"([^\"]*)\"");
 
-        JsonMsgProcessor(List<DesensitizeRule> rules) {
+        JsonMsgProcessor(List<CustomizeDesensitizeRule> rules) {
             super(rules);
         }
 
@@ -173,7 +135,7 @@ public class LogDesensitizer {
         private static final Pattern KEY_VALUE_PATTERN =
             Pattern.compile("(\\w+)(\\s*=\\s*)([^,)}]+)");
 
-        ToStringMsgProcessor(List<DesensitizeRule> rules) {
+        ToStringMsgProcessor(List<CustomizeDesensitizeRule> rules) {
             super(rules);
         }
 

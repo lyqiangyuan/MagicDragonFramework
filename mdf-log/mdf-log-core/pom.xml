@@ -8,7 +8,7 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>mdf-log-rule</artifactId>
+    <artifactId>mdf-log-core</artifactId>
     <packaging>jar</packaging>
 
     <name>mdf-log-rule</name>

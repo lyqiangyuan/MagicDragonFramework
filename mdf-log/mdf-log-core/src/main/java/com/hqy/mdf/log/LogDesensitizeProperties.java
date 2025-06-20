@@ -1,5 +1,7 @@
-package com.hqy.mdf.log.rule;
+package com.hqy.mdf.log;
 
+import com.hqy.mdf.log.rule.CustomizeDesensitizeRule;
+import com.hqy.mdf.log.rule.GlobalDesensitizeRule;
 import lombok.Data;
 
 import java.util.List;
@@ -12,7 +14,7 @@ public class LogDesensitizeProperties {
     /**
      * 脱敏开关
      */
-    private boolean open;
+    private boolean enable;
 
     /**
      * 是否添加默认全局兜底规则
@@ -22,12 +24,12 @@ public class LogDesensitizeProperties {
     /**
      * 自定义规则
      */
-    private List<DesensitizeRule> customizeRules;
+    private List<CustomizeDesensitizeRule> customizeRules;
 
     /**
      * 全局兜底规则
      */
-    private List<DesensitizeRule> globalRules;
+    private List<GlobalDesensitizeRule> globalRules;
 
 
 }

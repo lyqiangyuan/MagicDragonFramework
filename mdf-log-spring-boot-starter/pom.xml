@@ -5,12 +5,13 @@
         <groupId>com.hqy.mdf</groupId>
         <artifactId>MagicDragonFramework-parent</artifactId>
         <version>${revision}</version>
-        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>mdf-logback</artifactId>
+    <artifactId>mdf-log-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
 
+    <name>mdf-log-spring-boot-starter</name>
+    <url>http://maven.apache.org</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,13 +21,15 @@
         <dependency>
             <groupId>com.hqy.mdf</groupId>
             <artifactId>mdf-log-core</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${project.version}</version>
         </dependency>
-        <!-- Logback 依赖 -->
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-context</artifactId>
+        </dependency>
     </dependencies>
 </project>
