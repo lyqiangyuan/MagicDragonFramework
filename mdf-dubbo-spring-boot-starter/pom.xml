@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>com.hqy.mdf</groupId>
-            <artifactId>mdf-common</artifactId>
+            <artifactId>mdf-log-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

@@ -1,5 +1,8 @@
 package com.hqy.mdf.web.starter.filter;
 
+import com.hqy.mdf.log.LogWebProperties;
+import com.hqy.mdf.log.MdfLogConstant;
+import com.hqy.mdf.log.MdfLogContext;
 import com.hqy.mdf.web.starter.wrapper.BodyCachingRequestWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
@@ -35,20 +38,25 @@ public class WebLogFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        long startTime = System.currentTimeMillis();
+        Object object = MdfLogContext.getObject(MdfLogConstant.LOG_WEB_CONFIG_KEY);
+        if (object instanceof LogWebProperties && ((LogWebProperties) object).isEnable()) {
+            long startTime = System.currentTimeMillis();
 
-        // 包装原始请求以允许多次读取请求体
-        BodyCachingRequestWrapper requestWrapper = new BodyCachingRequestWrapper(request);
-//        ContentCachingRequestWrapper cachingRequestWrapper = new ContentCachingRequestWrapper(request);
-        ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
-        //记录请求
-        logRequest(requestWrapper);
-        //继续处理请求
-        filterChain.doFilter(requestWrapper, responseWrapper);
-        //记录响应
-        logResponse(responseWrapper, startTime);
-        // 将响应内容写回原始响应
-        responseWrapper.copyBodyToResponse();
+            // 包装原始请求以允许多次读取请求体
+            BodyCachingRequestWrapper requestWrapper = new BodyCachingRequestWrapper(request);
+    //        ContentCachingRequestWrapper cachingRequestWrapper = new ContentCachingRequestWrapper(request);
+            ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
+            //记录请求
+            logRequest(requestWrapper);
+            //继续处理请求
+            filterChain.doFilter(requestWrapper, responseWrapper);
+            //记录响应
+            logResponse(responseWrapper, startTime);
+            // 将响应内容写回原始响应
+            responseWrapper.copyBodyToResponse();
+        }else {
+            filterChain.doFilter(request, response);
+        }
 
     }
 
