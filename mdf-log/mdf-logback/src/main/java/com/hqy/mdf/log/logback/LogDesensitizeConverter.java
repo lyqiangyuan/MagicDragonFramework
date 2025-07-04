@@ -10,7 +10,7 @@ import com.hqy.mdf.log.MdfLogContext;
 /**
  * @author hqy
  */
-public class LogDesensitizingConverter extends MessageConverter {
+public class LogDesensitizeConverter extends MessageConverter {
 
     @Override
     public String convert(ILoggingEvent event) {

@@ -11,9 +11,9 @@ public class SensitiveConverterConfigurator extends ContextAwareBase implements 
     public void configure(LoggerContext loggerContext) {
 
         // 在应用启动最早阶段注册 Converter
-        PatternLayout.defaultConverterMap.put("m", LogDesensitizingConverter.class.getName());
-        PatternLayout.defaultConverterMap.put("msg", LogDesensitizingConverter.class.getName());
-        PatternLayout.defaultConverterMap.put("message", LogDesensitizingConverter.class.getName());
+        PatternLayout.defaultConverterMap.put("m", LogDesensitizeConverter.class.getName());
+        PatternLayout.defaultConverterMap.put("msg", LogDesensitizeConverter.class.getName());
+        PatternLayout.defaultConverterMap.put("message", LogDesensitizeConverter.class.getName());
 
     }
 }

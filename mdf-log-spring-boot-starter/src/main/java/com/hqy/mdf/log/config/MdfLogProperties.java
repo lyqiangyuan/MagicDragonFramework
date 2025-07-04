@@ -3,6 +3,7 @@ package com.hqy.mdf.log.config;
 import com.hqy.mdf.log.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,7 @@ import javax.annotation.PostConstruct;
 /**
  * @author hqy
  */
+@Slf4j
 @Getter
 @Setter
 @Component
@@ -38,5 +40,6 @@ public class MdfLogProperties {
         if (desensitize == null) {
             MdfLogContext.putObject(MdfLogConstant.LOG_DESENSITIZE_CONFIG_KEY,desensitize);
         }
+        log.info("MdfLogProperties init web config:{},dubbo config:{},desensitize:{}",web,dubbo,desensitize);
     }
 }
