@@ -37,6 +37,7 @@
     <pagehelper-spring-boot-starter.version>2.1.0</pagehelper-spring-boot-starter.version>
     <pagehelper.version>6.1.0</pagehelper.version>
     <jjwt.version>0.12.6</jjwt.version>
+    <bcprov-jdk15on.version>1.69</bcprov-jdk15on.version>
   </properties>
 
   <dependencyManagement>
@@ -65,6 +66,12 @@
         <version>${spring-cloud-alibaba-dependencies.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <!--国密依赖-->
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcprov-jdk15on</artifactId>
+        <version>${bcprov-jdk15on.version}</version>
       </dependency>
       <!-- dubbo -->
       <dependency>
